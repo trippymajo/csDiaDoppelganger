@@ -14,7 +14,7 @@ internal class DiaDoppelganger
     string outputPath = @"C:\Users\Admin\Desktop\Baml.txt";
 
     BamlReader.BamlShaman bamlS = new BamlReader.BamlShaman();
-    bamlS.ReadDll(dllPath, outputPath);
+    bamlS.ReadDll(dllPath, BamlShaman.SaveMode.Baml);
     // Start the WPF application
     Application app = new Application();
     app.Run();
