@@ -1,4 +1,38 @@
-﻿using System;
+﻿using System.Windows.Media.Media3D;
+
+using System.Windows;
+
+/// Big thanks to those repos:
+/// voidregreso/Baml2Xaml
+/// cprieto/Baml4dotPeek
+/// TODO: There is a mistake in parsing. Original Xaml does not match generated XAML
+/// The problem mainly about xaml attributes of the file. Also with naming the windows in XAML
+/// Need to figure out why does first lines differes. And also increase readability.
+
+/* Original:
+ <Window x:Class="PseudoSteam.MainWindow"
+xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns: x = "http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns: d = "http://schemas.microsoft.com/expression/blend/2008"
+        xmlns: mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns: local = "clr-namespace:PseudoSteam"
+        mc: Ignorable = "d"
+        Title = "MainWindow" Height = "600" Width = "1000"
+    MaxHeight = "600" MaxWidth = "1000"
+    Background = "#FF333333"
+    WindowStartupLocation = "CenterScreen"
+    WindowStyle = "None" >
+        <Window.Resources>
+        ...
+*/
+
+/* Output:
+ <MainWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PseudoSteam" Title="MainWindow" Height="600" Width="1000" MaxHeight="600" MaxWidth="1000" Background="#FF333333" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <MainWindow.Resources>
+    ...
+*/
+
+using System;
 using System.Collections;
 using System.IO;
 using System.Text;
@@ -808,8 +842,8 @@ namespace BamlReader
       switch (extension)
       {
         case 0x00bd: // DynamicResource
-        case 0x025b:
-          { // StaticResource
+        case 0x025b: // StaticResource
+          {
             if (typeExtension)
             {
               Element innerElement = this.CreateTypeExtension(valueIdentifier);
@@ -831,14 +865,14 @@ namespace BamlReader
             }
           }
           break;
-        case 0x25a:
-          { // Static
+        case 0x25a: // Static
+          {
             ResourceName resourceName = (ResourceName)this.GetResourceName(valueIdentifier);
             element.Arguments.Add(resourceName);
           }
           break;
-        case 0x027a:
-          { // TemplateBinding
+        case 0x027a: // TemplateBinding
+          {
             PropertyDeclaration propertyName = this.GetPropertyDeclaration(valueIdentifier);
             element.Arguments.Add(propertyName);
           }
@@ -3130,10 +3164,7 @@ namespace BamlReader
 
       public string XmlPrefix
       {
-        get
-        {
-          return this.xmlPrefix;
-        }
+        get { return this.xmlPrefix; }
       }
 
       public override string ToString()
@@ -3369,10 +3400,7 @@ namespace BamlReader
 
         internal bool HasMappingTable
         {
-          get
-          {
-            return null != this.mappingTable;
-          }
+          get { return null != this.mappingTable; }
         }
 
         internal HybridDictionary MappingTable
@@ -3572,36 +3600,36 @@ namespace BamlReader
           bool bit4 = (b & 0x80) == 0x80;
           switch (b & 0xF)
           {
-            case 0x0:
-              { //Begin
+            case 0x0: //Begin
+              {
                 shouldClose = bit2;
                 AddPathCommand('M', ref lastChar, sb);
                 AddPathPoint(reader, sb, bit3, bit4);
                 break;
               }
-            case 0x1:
-              { //LineTo
+            case 0x1: //LineTo
+              {
                 AddPathCommand('L', ref lastChar, sb);
                 AddPathPoint(reader, sb, bit3, bit4);
                 break;
               }
-            case 0x2:
-              { //QuadraticBezierTo
+            case 0x2: //QuadraticBezierTo
+              {
                 AddPathCommand('Q', ref lastChar, sb);
                 AddPathPoint(reader, sb, bit3, bit4);
                 AddPathPoint(reader, sb);
                 break;
               }
-            case 0x3:
-              { //BezierTo
+            case 0x3: //BezierTo
+              {
                 AddPathCommand('C', ref lastChar, sb);
                 AddPathPoint(reader, sb, bit3, bit4);
                 AddPathPoint(reader, sb);
                 AddPathPoint(reader, sb);
                 break;
               }
-            case 0x4:
-              { //PolyLineTo
+            case 0x4: //PolyLineTo
+              {
                 bool isStroked = bit1;
                 bool isSmooth = bit2;
                 AddPathCommand('L', ref lastChar, sb);
@@ -3610,8 +3638,8 @@ namespace BamlReader
                   AddPathPoint(reader, sb);
                 break;
               }
-            case 0x5:
-              { //PolyQuadraticBezierTo
+            case 0x5: //PolyQuadraticBezierTo
+              {
                 AddPathCommand('Q', ref lastChar, sb);
                 int count = reader.ReadInt32();
                 System.Diagnostics.Debug.Assert(count % 2 == 0);
@@ -3619,8 +3647,8 @@ namespace BamlReader
                   AddPathPoint(reader, sb);
                 break;
               }
-            case 0x6:
-              { //PolyBezierTo
+            case 0x6: //PolyBezierTo
+              {
                 AddPathCommand('C', ref lastChar, sb);
                 int count = reader.ReadInt32();
                 System.Diagnostics.Debug.Assert(count % 3 == 0);
@@ -3628,8 +3656,8 @@ namespace BamlReader
                   AddPathPoint(reader, sb);
                 break;
               }
-            case 0x7:
-              { //ArcTo
+            case 0x7: //ArcTo
+              {
                 double endPtX = ReadPathDouble(reader, bit3);
                 double endPtY = ReadPathDouble(reader, bit4);
                 byte arcInfo = reader.ReadByte();
@@ -3642,8 +3670,8 @@ namespace BamlReader
                 lastChar = 'A';
                 break;
               }
-            case 0x8:
-              { //Closed
+            case 0x8: //Closed
+              {
                 if (shouldClose)
                 {
                   sb.Append("Z");
@@ -3655,8 +3683,8 @@ namespace BamlReader
                 }
                 return sb.ToString();
               }
-            case 0x9:
-              { //FillRule
+            case 0x9: //FillRule
+              {
                 sb.Insert(0, bit1 ? "F1 " : "F0 ");
                 lastChar = 'F';
                 break;
