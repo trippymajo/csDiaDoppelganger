@@ -6,24 +6,63 @@ using System.Resources;
 
 namespace BamlReader
 {
-  public class BamlShaman
+  public class BamlShaman : IDisposable
   {
+    private MemoryStream m_mstXaml { get; set; }
     private string m_strOutPath { get; set; }
     private SaveMode m_enumSaveMode { get; set; }
 
     /// <summary>
+    /// Closes the member stream
+    /// </summary>
+    public void Dispose()
+    {
+      m_mstXaml?.Dispose();
+    }
+
+    /// <summary>
     /// Available mods for saving .BAML content inside .DLL as...
     /// </summary>
-    public enum SaveMode 
-    { 
+    public enum SaveMode
+    {
       NoSave = -1,
-      Baml = 0, 
-      Xaml = 1 
+      Baml = 0,
+      Xaml = 1
     };
 
-    private void SaveXaml(Stream stream, string strResName)
+    /// <summary>
+    /// Saves a stream to resource in XAML interpritation of BAML format
+    /// into member variable
+    /// </summary>
+    /// <param name="streamBaml">Original stream to .BAML</param>
+    private void StoreXamlStream(Stream streamBaml)
     {
-      //TODO: Make a Save Baml like Xaml in file
+      m_mstXaml = new MemoryStream();
+
+      using (StreamWriter sr = new StreamWriter(m_mstXaml, leaveOpen: true))
+      {
+        streamBaml.Seek(0, SeekOrigin.Begin);
+        var bamlReader = new BamlReader(streamBaml);
+        sr.WriteLine(bamlReader);
+        sr.Flush();
+      }
+
+      m_mstXaml.Seek(0, SeekOrigin.Begin);
+    }
+
+    private void SaveXamlFile(Stream streamBaml, string strResName)
+    {
+      string strOutPath = m_strOutPath;
+      strOutPath += '\\';
+      strResName = Path.ChangeExtension(strResName, "xaml");
+      // Need to replace slashes with _ in order to create an ordinal file name 
+      strOutPath += strResName.Replace('/', '_');
+      StreamWriter sr = new StreamWriter(strOutPath);
+
+      streamBaml.Seek(0, SeekOrigin.Begin);
+      var bamlParser = new BamlReader(streamBaml);
+      sr.WriteLine(bamlParser);
+      sr.Close();
     }
 
     /// <summary>
@@ -31,14 +70,16 @@ namespace BamlReader
     /// </summary>
     /// <param name="streamBaml">Stream to .BAML file inside of .resources of the .DLL</param>
     /// <param name="strResName">Current .BAML resource name</param>
-    private void SaveBaml(Stream streamBaml, string strResName)
+    private void SaveBamlFile(Stream streamBaml, string strResName)
     {
       //TODO: Check if m_strOutPath is not null
-      m_strOutPath += '\\';
+      string strOutPath = m_strOutPath;
+      strOutPath += '\\';
       // Need to replace slashes with _ in order to create an ordinal file name
-      m_strOutPath += strResName.Replace('/', '_'); 
+      strOutPath += strResName.Replace('/', '_');
 
-      using (FileStream fileStream = new FileStream(m_strOutPath, FileMode.Create, FileAccess.Write))
+      streamBaml.Seek(0, SeekOrigin.Begin);
+      using (FileStream fileStream = new FileStream(strOutPath, FileMode.Create, FileAccess.Write))
         streamBaml.CopyTo(fileStream);
 
       Console.WriteLine($"BAML content from {strResName} extracted and saved to {m_strOutPath}");
@@ -60,19 +101,21 @@ namespace BamlReader
           if (!strResName.EndsWith(".baml"))
             continue;
 
-
           //Yeah, there are actually 2 types of streams could be found
           var streamBaml = ent.Value as Stream ?? new MemoryStream((byte[])ent.Value);
 
           if (streamBaml == null)
             throw new Exception("Baml Stream is null!");
 
+          // TODO: Here You will end storing last stream, so next .baml entry won't be read.
+          // So make sure to store streams as a list for user to choose which dialog to load.
+          // Or store as list entries of the res reader which ends with .baml And wait for user input.
+          StoreXamlStream(streamBaml);
+
           if (m_enumSaveMode == SaveMode.Baml)
-            SaveBaml(streamBaml, strResName);
+            SaveBamlFile(streamBaml, strResName);
           else if (m_enumSaveMode == SaveMode.Xaml)
-            SaveXaml(streamBaml, strResName);
-
-
+            SaveXamlFile(streamBaml, strResName);
         }
       }
     }
@@ -82,7 +125,7 @@ namespace BamlReader
     /// </summary>
     /// <param name="strDllPath">Path to .DLL file to Read</param>
     /// <param name="enumSaveMode">Save mode for the result</param>
-    public void ReadDll(string strDllPath, SaveMode enumSaveMode)
+    public Stream ReadDll(string strDllPath, SaveMode enumSaveMode)
     {
       m_enumSaveMode = enumSaveMode;
       m_strOutPath = Path.GetDirectoryName(strDllPath);
@@ -94,13 +137,14 @@ namespace BamlReader
       {
         if (res is EmbeddedResource embeddedResource)
         {
-          // Get the resource stream
           using (Stream resStream = embeddedResource.GetResourceStream())
-          {
             ExtractBamlFromResources(resStream);
-          }
+
+          if (m_mstXaml != null)
+            return m_mstXaml;
         }
       }
+      return null;
     }
 
     //static string ConvertBamlToXaml(string bamlFilePath)
