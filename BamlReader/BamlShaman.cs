@@ -50,18 +50,20 @@ namespace BamlReader
       m_mstXaml.Seek(0, SeekOrigin.Begin);
     }
 
-    private void SaveXamlFile(Stream streamBaml, string strResName)
+    private void SaveXamlFile(string strResName)
     {
       string strOutPath = m_strOutPath;
       strOutPath += '\\';
       strResName = Path.ChangeExtension(strResName, "xaml");
       // Need to replace slashes with _ in order to create an ordinal file name 
       strOutPath += strResName.Replace('/', '_');
-      StreamWriter sr = new StreamWriter(strOutPath);
+      StreamWriter sw = new StreamWriter(strOutPath);
 
-      streamBaml.Seek(0, SeekOrigin.Begin);
-      var bamlParser = new BamlReader(streamBaml);
-      sr.WriteLine(bamlParser);
+      StreamReader sr = new StreamReader(m_mstXaml, leaveOpen: true);
+      m_mstXaml.Seek(0, SeekOrigin.Begin);
+
+      sw.WriteLine(sr.ReadToEnd());
+      sw.Close();
       sr.Close();
     }
 
@@ -115,7 +117,7 @@ namespace BamlReader
           if (m_enumSaveMode == SaveMode.Baml)
             SaveBamlFile(streamBaml, strResName);
           else if (m_enumSaveMode == SaveMode.Xaml)
-            SaveXamlFile(streamBaml, strResName);
+            SaveXamlFile(strResName);
         }
       }
     }

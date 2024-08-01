@@ -1,8 +1,4 @@
-﻿using System.Windows.Media.Media3D;
-
-using System.Windows;
-
-/// Big thanks to those repos:
+﻿/// Big thanks to those repos:
 /// voidregreso/Baml2Xaml
 /// cprieto/Baml4dotPeek
 /// TODO: There is a mistake in parsing. Original Xaml does not match generated XAML
@@ -661,6 +657,11 @@ namespace BamlReader
       if (index != -1)
       {
         string name = typeFullName.Substring(index + 1);
+
+        //W.I.P.
+        //Need to proper handle the type of control.
+        if (name == "MainWindow")
+          name = "Window";
         string namespaceName = typeFullName.Substring(0, index);
         typeDeclaration = new TypeDeclaration(name, namespaceName, assembly);
       }
