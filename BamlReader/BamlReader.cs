@@ -418,6 +418,21 @@ namespace BamlReader
       }
     }
 
+    /// <summary>
+    /// Checks if TypeDeclaration of the element is a NullExtension
+    /// </summary>
+    /// <param name="typeDecl">TypeDeclaration of the element to check</param>
+    /// <returns>
+    /// True - Yes, NullExtension   <br/>
+    /// False - Not NullExtension
+    /// </returns>
+    private bool isNullExtension(TypeDeclaration typeDecl)
+    {
+      if (typeDecl == this.GetTypeDeclaration(-0x01a6))
+        return true;
+      return false;
+    }
+
     private static void WriteComplexElement(Element element, TextWriter writer)
     {
       if (element.TypeDeclaration.Name == "Binding")
@@ -426,10 +441,13 @@ namespace BamlReader
       }
       writer.Write("{");
       string name = element.TypeDeclaration.ToString();
+
       if (name.EndsWith("Extension"))
-      {
         name = name.Substring(0, name.Length - 9);
-      }
+
+      if (name == "Null")
+        name = "x:Null";
+
       writer.Write(name);
       if ((element.Arguments.Count > 0) || (element.Properties.Count > 0))
       {
