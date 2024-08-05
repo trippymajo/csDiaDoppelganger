@@ -50,6 +50,10 @@ namespace BamlReader
       m_mstXaml.Seek(0, SeekOrigin.Begin);
     }
 
+    /// <summary>
+    /// Saves BAML file as Xaml near original .DLL file
+    /// </summary>
+    /// <param name="strResName">Current .BAML resource name</param>
     private void SaveXamlFile(string strResName)
     {
       string strOutPath = m_strOutPath;

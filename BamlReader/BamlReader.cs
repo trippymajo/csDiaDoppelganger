@@ -656,12 +656,13 @@ namespace BamlReader
       int index = typeFullName.LastIndexOf('.');
       if (index != -1)
       {
-        string name = typeFullName.Substring(index + 1);
+        if (typeFullName is null || assembly is null)
+          return;
 
-        //W.I.P.
-        //Need to proper handle the type of control.
-        if (name == "MainWindow")
-          name = "Window";
+        // Ugly Ugly! But i dont wanna load assembly to checl the base type of this.
+        // Probably later if there will be more classes...
+        string curClassName = typeFullName.Substring(index + 1);
+        string name = curClassName == "MainWindow" ? "Window" : curClassName; //Changing from MainWindow to Window for Xaml view
         string namespaceName = typeFullName.Substring(0, index);
         typeDeclaration = new TypeDeclaration(name, namespaceName, assembly);
       }
