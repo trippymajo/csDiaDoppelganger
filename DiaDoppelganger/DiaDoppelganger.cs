@@ -16,12 +16,23 @@ internal class DiaDoppelganger
     string strXamlPath = @"C:\Users\Admin\Desktop\MainWindow.xaml";
     string strOutputPath = @"C:\Users\Admin\Desktop\Baml.txt";
 
-    BamlReader.BamlShaman bamlS = new BamlReader.BamlShaman();
-    var streamXaml = bamlS.ReadDll(strDllPath, BamlShaman.SaveMode.Xaml);
+    BamlShaman bamlS = new BamlShaman();
+    var xamlList = bamlS.ReadDll(strDllPath, BamlShaman.SaveMode.Xaml);
 
-    streamXaml.Seek(0, SeekOrigin.Begin);
+    Console.WriteLine("Which window to show?\n");
+    for (int i = 0; i < xamlList.Count; ++i)
+    {
+      Console.WriteLine($"#{i+1} Dialog Name: {xamlList[i].resName}");
+    }
 
-    using (XmlReader xmlReader = XmlReader.Create(streamXaml))
+    int numberInput = -1;
+    while (numberInput < 0 || numberInput > xamlList.Count)
+      numberInput = Convert.ToInt32(Console.ReadLine());
+
+    var xamlStream = xamlList[numberInput - 1].xamlStream;
+    xamlStream.Seek(0, SeekOrigin.Begin);
+
+    using (XmlReader xmlReader = XmlReader.Create(xamlStream))
     {
       Window dynamicDialog = (Window)XamlReader.Load(xmlReader);
       // Start the WPF application

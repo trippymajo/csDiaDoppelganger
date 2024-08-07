@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiaDoppelganger", "DiaDoppe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BamlReader", "BamlReader\BamlReader.csproj", "{182797C7-0B02-4797-BA07-09D9DED5AE96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiaDoppelgangerUi", "DiaDoppelgangerUi\DiaDoppelgangerUi.csproj", "{B147CFCB-F5EB-43AF-8488-509183C266C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ui", "Ui\Ui.csproj", "{0E9878BF-6258-4FF3-9508-8DD8069BAF68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{182797C7-0B02-4797-BA07-09D9DED5AE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{182797C7-0B02-4797-BA07-09D9DED5AE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{182797C7-0B02-4797-BA07-09D9DED5AE96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E9878BF-6258-4FF3-9508-8DD8069BAF68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E9878BF-6258-4FF3-9508-8DD8069BAF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E9878BF-6258-4FF3-9508-8DD8069BAF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E9878BF-6258-4FF3-9508-8DD8069BAF68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
