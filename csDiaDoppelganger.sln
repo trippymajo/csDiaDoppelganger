@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiaDoppelganger", "DiaDoppelganger\DiaDoppelganger.csproj", "{43696FA9-231D-49D9-866E-3A05AE3B062E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiaDoppelganger", "DiaDoppelganger\DiaDoppelganger.csproj", "{43696FA9-231D-49D9-866E-3A05AE3B062E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BamlReader", "BamlReader\BamlReader.csproj", "{182797C7-0B02-4797-BA07-09D9DED5AE96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BamlReader", "BamlReader\BamlReader.csproj", "{182797C7-0B02-4797-BA07-09D9DED5AE96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiaDoppelgangerUi", "DiaDoppelgangerUi\DiaDoppelgangerUi.csproj", "{B147CFCB-F5EB-43AF-8488-509183C266C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{182797C7-0B02-4797-BA07-09D9DED5AE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{182797C7-0B02-4797-BA07-09D9DED5AE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{182797C7-0B02-4797-BA07-09D9DED5AE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B147CFCB-F5EB-43AF-8488-509183C266C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

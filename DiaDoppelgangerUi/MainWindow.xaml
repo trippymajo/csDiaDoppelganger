@@ -1,0 +1,41 @@
+﻿<Window x:Class="DiaDoppelgangerUi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiaDoppelgangerUi"
+        mc:Ignorable="d"
+        Title="csDiaDoppelganger" Height="450" Width="800" Topmost="True">
+  <Grid x:Name="MainGrid">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid x:Name="MenuGrid" Grid.Row="0">
+      <Menu x:Name="MenuBar">
+        <MenuItem Header="File">
+          <MenuItem Header="_New"></MenuItem>
+          <MenuItem Header="_Open..."></MenuItem>
+          <MenuItem Header="_Save"></MenuItem>
+          <MenuItem Header="_Save As..."></MenuItem>
+          <Separator></Separator>
+        <MenuItem Header="Exit"></MenuItem>
+      </MenuItem>
+      <!--<MenuItem Header="File"></MenuItem>
+      <MenuItem Header="File"></MenuItem>-->
+      </Menu>
+    </Grid>
+    <Grid x:Name="Workspace" Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="auto" MinWidth="250"></ColumnDefinition>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <TreeView Grid.Column="0">
+        Dynamically build tree view for the loaded dll
+      </TreeView>
+      <ContentControl Grid.Column="1">
+        Content of the dynamically loaded dialog
+      </ContentControl>
+    </Grid>
+  </Grid>
+</Window>
