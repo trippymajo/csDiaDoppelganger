@@ -22,7 +22,7 @@ internal class DiaDoppelganger
     Console.WriteLine("Which window to show?\n");
     for (int i = 0; i < xamlList.Count; ++i)
     {
-      Console.WriteLine($"#{i+1} Dialog Name: {xamlList[i].resName}");
+      Console.WriteLine($"#{i + 1} Dialog Name: {xamlList[i].resName}");
     }
 
     int numberInput = -1;

@@ -30,11 +30,8 @@
         <ColumnDefinition Width="auto" MinWidth="250"></ColumnDefinition>
         <ColumnDefinition Width="*"></ColumnDefinition>
       </Grid.ColumnDefinitions>
-      <TreeView Grid.Column="0">
-        Dynamically build tree view for the loaded dll
-      </TreeView>
-      <ContentControl Grid.Column="1">
-        Content of the dynamically loaded dialog
+      <TreeView x:Name="TreeViewControl" Grid.Column="0" SelectedItemChanged="TreeViewItem_Changed"/>
+      <ContentControl x:Name="RecreatedDialog" Grid.Column="1">
       </ContentControl>
     </Grid>
   </Grid>

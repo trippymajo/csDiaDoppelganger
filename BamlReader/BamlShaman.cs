@@ -5,8 +5,6 @@ using System.Resources;
 using System.Collections.Generic;
 
 using Mono.Cecil;
-using System.Security.Cryptography.X509Certificates;
-using static BamlReader.BamlShaman;
 
 namespace BamlReader
 {
@@ -145,10 +143,10 @@ namespace BamlReader
     /// <summary>
     /// Reads .DLL file and tries to extract XAML streams of the BAMLs
     /// </summary>
-    /// <param name="strDllPath"></param>
-    /// <param name="enumSaveMode"></param>
+    /// <param name="strDllPath">Full path to .DLL file</param>
+    /// <param name="enumSaveMode">Save Mode for the extracted files</param>
     /// <returns>List of tuples of XAML streams and names</returns>
-    public List<(Stream xamlStream, string resName)> ReadDll(string strDllPath, SaveMode enumSaveMode)
+    public List<(Stream xamlStream, string resName)> ReadDll(string strDllPath, SaveMode enumSaveMode = SaveMode.NoSave)
     {
       _saveMode = enumSaveMode;
       _outPath = Path.GetDirectoryName(strDllPath);
