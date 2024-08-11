@@ -8,6 +8,8 @@ using BamlReader;
 
 namespace Ui
 {
+  using WpfConverter;
+
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
@@ -62,7 +64,7 @@ namespace Ui
         using (XmlReader xmlReader = XmlReader.Create(xamlStream))
         {
           // W.I.P. Here Need to rewrite xaml so that Window tag would be UserControl
-          RecreatedDialog.Content = (Window)XamlReader.Load(xmlReader);
+          RecreatedDialog.Content = (UserControl)XamlReader.Load(xmlReader);
         }
       }
     }
@@ -88,14 +90,16 @@ namespace Ui
         string fileName = Path.GetFileName(fullFilePath);
 
         var bamlShaman = new BamlShaman();
-        var xamlSteamList = bamlShaman.ReadDll(fullFilePath);
+        var xamlStreamList = bamlShaman.ReadDll(fullFilePath);
 
         TreeViewControl.Items.Clear();
         var rootItem = new TreeViewItem { Header = fileName, Tag = null };
-        foreach (var xamlListItem in xamlSteamList)
+        this.WindowState = WindowState.Minimized;
+        foreach (var xamlListItem in xamlStreamList)
         {
           string[] splitResName = xamlListItem.resName.Split('/');
-          CreateTreeView(rootItem, splitResName, xamlListItem.xamlStream);
+          var stream = WpfConverter.Window2UserControl(xamlListItem.xamlStream);
+          CreateTreeView(rootItem, splitResName, stream);
         }
         TreeViewControl.Items.Add(rootItem);
       }

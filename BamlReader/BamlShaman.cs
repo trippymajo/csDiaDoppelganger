@@ -167,31 +167,5 @@ namespace BamlReader
       }
       return null;
     }
-
-    //static string ConvertBamlToXaml(string bamlFilePath)
-    //{
-    //  using (FileStream bamlStream = new FileStream(bamlFilePath, FileMode.Open, FileAccess.Read))
-    //  {
-    //    // Read BAML
-    //    var bamlReader = new Baml2006Reader(bamlStream);
-
-    //    // Create XAML writer settings
-    //    var writerSettings = new XamlObjectWriterSettings
-    //    {
-    //      RootObjectInstance = null
-    //    };
-    //    var xamlWriter = new XamlObjectWriter(bamlReader.SchemaContext, writerSettings);
-
-    //    // Read BAML and write XAML
-    //    while (bamlReader.Read())
-    //    {
-    //      xamlWriter.WriteNode(bamlReader);
-    //    }
-
-    //    // Convert the XAML object to a string
-    //    var xamlObject = xamlWriter.Result;
-    //    return XamlWriter.Save(xamlObject);
-    //  }
-    //}
   }
 }
